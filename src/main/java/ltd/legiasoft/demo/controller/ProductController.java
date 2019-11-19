@@ -27,7 +27,7 @@ public class ProductController {
 		this.productRepository = productRepository;
 	}
 
-	@ApiOperation(value = "Add an product")
+	@ApiOperation(value = "Add a product")
 	@PostMapping("/products")
 	public ResponseEntity<Object> createProduct(@RequestBody Product product) {
 		LOGGER.fine(String.format("Create new product %s", product));
@@ -45,16 +45,15 @@ public class ProductController {
 		return productRepository.all();
 	}
 
-	@ApiOperation(value = "Get an product by Id")
-	@GetMapping("/products/{id}")
-	public ResponseEntity<Object> get(@PathVariable(value = "id") String id) {
-		return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
+	@ApiOperation(value = "Get products by Ids")
+	@GetMapping("/products/search")
+	public ResponseEntity<List<Product>> get(@RequestParam("id") List<String> ids) {
+		return new ResponseEntity<>(productRepository.findByIds(ids), HttpStatus.OK);
 	}
-
 
 	@ApiOperation(value = "Update an product")
 	@PutMapping("/product/{productCode}")
-	public ResponseEntity < Object > updateEmployee(
+	public ResponseEntity < Object > updateProduct(
 			@ApiParam(value = "Product code to update product object", required = true) @PathVariable(value = "productCode") String productCode,
 			@ApiParam(value = "Update product", required = true) @Valid @RequestBody Product product) {
 		productRepository.updatePrice(productCode, product.getPrice());

@@ -2,6 +2,7 @@ package ltd.legiasoft.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ltd.legiasoft.demo.model.Product;
+import ltd.legiasoft.demo.repository.OrderRepository;
 import ltd.legiasoft.demo.repository.ProductRepository;
 import org.assertj.core.util.Lists;
 import org.json.JSONArray;
@@ -15,10 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,11 +38,15 @@ public class ProductControllerTest {
 	@MockBean
 	private ProductRepository productRepository;
 
+	@MockBean
+	private OrderRepository orderRepository;
+
+	@MockBean
+	private RestTemplate restTemplate;
 
 	@Test
 	public void createProductWithCorrectFormat() throws Exception {
 		//given(productRepository.all()).willReturn(Lists.newArrayList());
-
 		this.mockMvc.perform(post("/api/products")
 								.content("{\"productCode\":\"sample1\",\"productName\":\"productName\",\"price\":10}")
 								.contentType("application/json")).

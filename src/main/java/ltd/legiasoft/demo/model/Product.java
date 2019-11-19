@@ -1,14 +1,13 @@
 package ltd.legiasoft.demo.model;
 
 
-import com.querydsl.core.annotations.QueryEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@QueryEntity
 @Document("Product")
 public class Product {
 	@Id
@@ -50,5 +49,20 @@ public class Product {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Product product = (Product) o;
+		return productCode.equals(product.productCode) &&
+				Objects.equals(productName, product.productName) &&
+				price.equals(product.price);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(productCode, productName, price);
 	}
 }

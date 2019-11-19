@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
 @Document("Order")
 public class Order {
 
@@ -35,6 +36,7 @@ public class Order {
 		this.orderTime = LocalDateTime.now();
 		this.totalValue = products.stream().map(product -> product.getPrice()).reduce(BigDecimal.ZERO, BigDecimal::add);
 		this.buyerEmailAddress = buyerEmailAddress;
+		this.products = products;
 	}
 
 

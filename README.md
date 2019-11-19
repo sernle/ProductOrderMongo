@@ -26,6 +26,7 @@ You would need to have docker in your local machine first.
 
 ```bash
 docker pull mongo:4.2
+# docker rm mongodb
 docker run -d -p 27017-27019:27017-27019 --name mongodb mongo:4.2
 ```
 
@@ -46,3 +47,6 @@ db.createUser( { user: "samle",
 I use swagger so, you could follow the link to access to the rest api doc of the application when the application is running
 http://localhost:8080/v2/api-docs
 http://localhost:8080/swagger-ui.html
+
+
+# Service redundancy

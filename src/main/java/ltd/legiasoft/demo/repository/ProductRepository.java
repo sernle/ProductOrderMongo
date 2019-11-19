@@ -1,8 +1,11 @@
 package ltd.legiasoft.demo.repository;
 
+import ltd.legiasoft.demo.model.Order;
 import ltd.legiasoft.demo.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.Repository;
 
 import java.math.BigDecimal;
@@ -25,11 +28,10 @@ public class ProductRepository implements Repository<Product, String> {
 		return mongoTemplate.findAll(Product.class);
 	}
 
-	public Product findById(String id) {
-		return mongoTemplate.findById(id, Product.class);
+	public List<Product> findByIds(List<String> ids) {
+		Query query = new Query().addCriteria(Criteria.where("productCode").in(ids));
+		return mongoTemplate.find(query, Product.class);
 	}
-
-
 	public void updatePrice(String productCode, BigDecimal price) {
 		Product product = mongoTemplate.findById(productCode, Product.class);
 		product.setPrice(price);
