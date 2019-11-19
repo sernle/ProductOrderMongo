@@ -32,7 +32,6 @@ public class OrderController {
 	private OrderRepository orderRepository;
 	@Autowired
 	private Environment env;
-
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -63,6 +62,7 @@ public class OrderController {
 	}
 
 	private List<Product> getCurrentProducts(@RequestBody Order order) {
+		LOGGER.info(String.format("Product search api %s", env.getProperty("api.search.product.uri")));
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(env.getProperty("api.search.product.uri"));
 		order.getProducts().forEach(product ->
 				builder.queryParam("id", product.getProductCode())
